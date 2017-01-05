@@ -1258,7 +1258,9 @@ public class MetsMods implements ugh.dl.Fileformat {
             parseMetadataForLogicalDocStruct(newDocStruct, true);
 
             // If the top DocStruct is an anchor, get its child's MODS section.
-            if (newDocStruct.getType().getAnchorClass() != null && newDocStruct.getAllChildren().get(0).getAnchorClass() == null) {
+            if (newDocStruct.getType().getAnchorClass() != null && newDocStruct.getAllChildren() != null &&
+            		newDocStruct.getAllChildren().get(0).getAnchorClass() == null) {
+
                 String modsdata = getMODSSection(newDocStruct.getAllChildren().get(0));
 
                 // If a MODS section is existing, look for anchor references. A
@@ -1274,9 +1276,9 @@ public class MetsMods implements ugh.dl.Fileformat {
                     if (newanchor != null) {
                         // Check if the two DocStructs are from the same type!
                         if (!newanchor.getType().equals(newDocStruct.getType())) {
-                            String message =
-                                    "Top DocStructs from METS file '" + newanchor.getType().getName() + "' and METS anchor file '"
-                                            + newDocStruct.getType().getName() + "' are not from the same type!";
+                            String message = "Top DocStructs from METS file '" +
+                        		newanchor.getType().getName() + "' and METS anchor file '" +
+                        		newDocStruct.getType().getName() + "' are not from the same type!";
                             LOGGER.error(message);
                             throw new ReadException(message);
                         }
